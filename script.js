@@ -8,11 +8,24 @@
   var synth = window.speechSynthesis;
   var currentUtterance = null;
 
+  // ★ 韓国語の「クリアな女性音声（Yunaなど）」を最優先で探す関数に修正
   function getKoreanVoice() {
     var voices = synth.getVoices();
+    
+    // 1. まずは韓国語で、かつ名前に「Yuna」または「Google」が含まれる女性らしい声を探す
+    var preferredVoice = voices.find(function (v) {
+      var isKo = v.lang === "ko-KR" || v.lang.startsWith("ko");
+      var nameLower = v.name.toLowerCase();
+      return isKo && (nameLower.includes("yuna") || nameLower.includes("google"));
+    });
+
+    if (preferredVoice) return preferredVoice;
+
+    // 2. もし見つからなければ、通常の韓国語の音声を探す
     var koVoice = voices.find(function (v) {
       return v.lang === "ko-KR" || v.lang.startsWith("ko");
     });
+    
     return koVoice || null;
   }
 
@@ -25,7 +38,8 @@
 
     var utterance = new SpeechSynthesisUtterance(koreanText);
     utterance.lang = "ko-KR";
-    utterance.rate = 0.9;
+    // ★ 聞き取りやすいようにスピードをほんの少し（0.9から0.95に）調整
+    utterance.rate = 0.95; 
     utterance.pitch = 1;
 
     var voice = getKoreanVoice();
