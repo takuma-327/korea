@@ -1,0 +1,469 @@
+/* ========================================
+   Korean Intermediate Study Site
+   K-POP / Korean Cafe Theme
+   ======================================== */
+
+:root {
+  --pink-light: #fce4ec;
+  --pink: #f8bbd9;
+  --pink-accent: #f48fb1;
+  --mint-light: #e0f7f4;
+  --mint: #b2dfdb;
+  --mint-accent: #80cbc4;
+  --white: #ffffff;
+  --gray-50: #fafafa;
+  --gray-100: #f5f5f5;
+  --gray-200: #eeeeee;
+  --gray-400: #bdbdbd;
+  --gray-600: #757575;
+  --gray-800: #424242;
+  --text: #333333;
+  --shadow: 0 2px 12px rgba(244, 143, 177, 0.15);
+  --shadow-hover: 0 6px 24px rgba(128, 203, 196, 0.25);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: linear-gradient(180deg, var(--pink-light) 0%, var(--white) 30%, var(--mint-light) 100%);
+  min-height: 100vh;
+  line-height: 1.7;
+}
+
+/* ---- Header ---- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--pink);
+  box-shadow: var(--shadow);
+}
+
+.header__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.header__logo {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--pink-accent);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.header__logo span {
+  color: var(--mint-accent);
+}
+
+.nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav__link {
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--gray-800);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav__link:hover,
+.nav__link:focus {
+  background: var(--mint-light);
+  color: var(--mint-accent);
+}
+
+/* ---- Hero ---- */
+.hero {
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.hero__title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--gray-800);
+  margin-bottom: 0.75rem;
+}
+
+.hero__subtitle {
+  color: var(--gray-600);
+  font-size: 1rem;
+}
+
+/* ---- Sections ---- */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.section__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section__badge {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.section__badge--pink {
+  background: var(--pink-light);
+  color: var(--pink-accent);
+}
+
+.section__badge--mint {
+  background: var(--mint-light);
+  color: var(--mint-accent);
+}
+
+.section__badge--column {
+  background: linear-gradient(135deg, var(--pink-light), var(--mint-light));
+  color: var(--gray-800);
+}
+
+.section__title {
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  color: var(--gray-800);
+  margin-bottom: 0.5rem;
+}
+
+.section__desc {
+  color: var(--gray-600);
+  font-size: 0.95rem;
+}
+
+/* ---- Vocabulary Cards ---- */
+.vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.vocab-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--pink-light);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  gap: 0.25rem 0.75rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.vocab-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.vocab-card__word {
+  grid-column: 1;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gray-800);
+}
+
+.vocab-card__pronunciation {
+  grid-column: 1;
+  font-size: 0.85rem;
+  color: var(--pink-accent);
+}
+
+.vocab-card__meaning {
+  grid-column: 1;
+  font-size: 0.95rem;
+  color: var(--gray-600);
+}
+
+.vocab-card__btn {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  align-self: center;
+}
+
+/* ---- Grammar Cards ---- */
+.grammar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.grammar-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--mint-accent);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.grammar-card:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.grammar-card__pattern {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--mint-accent);
+  margin-bottom: 0.5rem;
+}
+
+.grammar-card__phrase {
+  font-size: 1.15rem;
+  color: var(--gray-800);
+  margin-bottom: 0.35rem;
+}
+
+.grammar-card__translation {
+  font-size: 0.95rem;
+  color: var(--gray-600);
+  margin-bottom: 0.75rem;
+}
+
+.grammar-card__explanation {
+  font-size: 0.88rem;
+  color: var(--gray-600);
+  background: var(--mint-light);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  line-height: 1.6;
+}
+
+.grammar-card__actions {
+  margin-top: 0.75rem;
+}
+
+/* ---- Speak Button ---- */
+.speak-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--pink), var(--mint));
+  color: var(--white);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+  white-space: nowrap;
+}
+
+.speak-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.speak-btn:active {
+  transform: scale(0.97);
+}
+
+.speak-btn--speaking {
+  animation: pulse 0.8s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.speak-btn__icon {
+  font-size: 0.9rem;
+}
+
+/* ---- Column / Blog ---- */
+.column-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.column-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.column-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.column-card__image {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.column-card__image--travel {
+  background: linear-gradient(135deg, var(--mint-light), var(--mint));
+}
+
+.column-card__image--idol {
+  background: linear-gradient(135deg, var(--pink-light), var(--pink));
+}
+
+.column-card__image--drama {
+  background: linear-gradient(135deg, #e8eaf6, #c5cae9);
+}
+
+.column-card__body {
+  padding: 1.5rem;
+}
+
+.column-card__tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+
+.column-card__tag--travel { background: var(--mint-light); color: var(--mint-accent); }
+.column-card__tag--idol { background: var(--pink-light); color: var(--pink-accent); }
+.column-card__tag--drama { background: #e8eaf6; color: #5c6bc0; }
+
+.column-card__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.column-card__excerpt {
+  font-size: 0.88rem;
+  color: var(--gray-600);
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.column-card__content {
+  font-size: 0.88rem;
+  color: var(--gray-600);
+  line-height: 1.8;
+}
+
+.column-card__content h4 {
+  font-size: 0.95rem;
+  color: var(--gray-800);
+  margin: 1.25rem 0 0.5rem;
+}
+
+.column-card__content ul {
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.column-card__content li {
+  margin-bottom: 0.35rem;
+}
+
+.column-card__content .phrase-box {
+  background: var(--gray-50);
+  border-left: 3px solid var(--mint-accent);
+  padding: 0.6rem 0.9rem;
+  margin: 0.5rem 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.85rem;
+}
+
+.column-card__content .phrase-box strong {
+  color: var(--gray-800);
+}
+
+/* ---- Footer ---- */
+.footer {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-top: 2px solid var(--mint);
+  color: var(--gray-600);
+  font-size: 0.85rem;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .header__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .vocab-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vocab-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .vocab-card__btn {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 0.5rem;
+    justify-self: start;
+  }
+
+  .column-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding: 2rem 1rem 1.5rem;
+  }
+
+  .section {
+    padding: 2rem 1rem;
+  }
+}
