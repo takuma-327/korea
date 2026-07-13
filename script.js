@@ -8,25 +8,22 @@
   var synth = window.speechSynthesis;
   var currentUtterance = null;
 
-  // ★ 韓国語の「クリアな女性音声（Yunaなど）」を最優先で探す関数に修正
-  function getKoreanVoice() {
+  // 1. メインで使う「クリアな女性の声（Yuna）」を探す
+  function getPreferredKoreanVoice() {
     var voices = synth.getVoices();
-    
-    // 1. まずは韓国語で、かつ名前に「Yuna」または「Google」が含まれる女性らしい声を探す
-    var preferredVoice = voices.find(function (v) {
+    return voices.find(function (v) {
       var isKo = v.lang === "ko-KR" || v.lang.startsWith("ko");
-      var nameLower = v.name.toLowerCase();
-      return isKo && (nameLower.includes("yuna") || nameLower.includes("google"));
-    });
+      return isKo && v.name.toLowerCase().includes("yuna");
+    }) || null;
+  }
 
-    if (preferredVoice) return preferredVoice;
-
-    // 2. もし見つからなければ、通常の韓国語の音声を探す
-    var koVoice = voices.find(function (v) {
-      return v.lang === "ko-KR" || v.lang.startsWith("ko");
-    });
-    
-    return koVoice || null;
+  // 2. Yunaが喋れない時のための「バックアップの賢い声」を探す
+  function getBackupKoreanVoice() {
+    var voices = synth.getVoices();
+    return voices.find(function (v) {
+      var isKo = v.lang === "ko-KR" || v.lang.startsWith("ko");
+      return isKo && !v.name.toLowerCase().includes("yuna");
+    }) || null;
   }
 
   function speak(koreanText, button) {
@@ -38,13 +35,13 @@
 
     var utterance = new SpeechSynthesisUtterance(koreanText);
     utterance.lang = "ko-KR";
-    // ★ 聞き取りやすいようにスピードをほんの少し（0.9から0.95に）調整
     utterance.rate = 0.95; 
     utterance.pitch = 1;
 
-    var voice = getKoreanVoice();
-    if (voice) {
-      utterance.voice = voice;
+    // まずは女性の声（Yuna）をセットしてみる
+    var mainVoice = getPreferredKoreanVoice();
+    if (mainVoice) {
+      utterance.voice = mainVoice;
     }
 
     if (button) {
@@ -60,12 +57,46 @@
       currentUtterance = null;
     };
 
-    utterance.onerror = function () {
+    // ★ここが安全装置：もし女性の声でエラー（再生失敗）が起きたら、即座に別の声で鳴らし直す
+    utterance.onerror = function (event) {
+      console.log("メイン音声でエラーが発生したため、バックアップ音声に切り替えます:", event);
+      
       if (button) {
         button.classList.remove("speak-btn--speaking");
         button.disabled = false;
       }
-      currentUtterance = null;
+      
+      // 1回きりのエラーなら、別の声でリトライ
+      if (event.error !== 'interrupted') {
+        var backupUtterance = new SpeechSynthesisUtterance(koreanText);
+        backupUtterance.lang = "ko-KR";
+        backupUtterance.rate = 0.95;
+        
+        var backupVoice = getBackupKoreanVoice();
+        if (backupVoice) {
+          backupUtterance.voice = backupVoice;
+        }
+        
+        // リトライ側の制御
+        if (button) {
+          button.classList.add("speak-btn--speaking");
+          button.disabled = true;
+        }
+        backupUtterance.onend = function () {
+          if (button) {
+            button.classList.remove("speak-btn--speaking");
+            button.disabled = false;
+          }
+        };
+        backupUtterance.onerror = function () {
+          if (button) {
+            button.classList.remove("speak-btn--speaking");
+            button.disabled = false;
+          }
+        };
+        
+        synth.speak(backupUtterance);
+      }
     };
 
     currentUtterance = utterance;
@@ -85,7 +116,7 @@
 
   if (synth.onvoiceschanged !== undefined) {
     synth.onvoiceschanged = function () {
-      getKoreanVoice();
+      getPreferredKoreanVoice();
     };
   }
 
